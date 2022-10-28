@@ -1,4 +1,5 @@
 Imports System
+Imports DBMod
 
 Module Program
   Sub Main(args As String())
