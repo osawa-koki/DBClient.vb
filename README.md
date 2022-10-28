@@ -33,6 +33,9 @@ CREATE TABLE pokemon(
   number INT PRIMARY KEY,
   name NVARCHAR(10) UNIQUE
 );
+
+# DBプロンプトモードから抜ける
+exit
 ```
 
 ## 自分用メモ
