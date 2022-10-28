@@ -2,7 +2,7 @@ Imports System
 Imports System.Data.SqlClient
 
 Namespace DBMod
-  Public Enum DBMethod
+  Friend Enum DBMethod
     DBSelect
     DBSelectAll
     DBExecute
