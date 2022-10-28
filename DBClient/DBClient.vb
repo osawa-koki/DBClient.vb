@@ -1,14 +1,15 @@
 Imports System
+Imports System.Data
 Imports System.Data.SqlClient
 
-Namespace DBMod
-  Friend Enum DBMethod
+
+  Public Enum DBMethod
     DBSelect
     DBSelectAll
     DBExecute
   End Enum
 
-  Class DBClient
+  Public Class DBClient
     ' 接続文字列
     Private Shared connection_string As String
     ' SQL文
@@ -17,21 +18,21 @@ Namespace DBMod
     Private _sqlParams As List(Of (arg As String, dbtype As SqlDbType, value As Object)) = New List(Of (arg As String, dbtype As SqlDbType, value As Object))
 
     ' プログラムで一度だけ実行(初期化)
-    Friend Sub Init(connection_string As String)
-      Me.connection_string = connection_string
+    Public Shared Sub Init(connection_string As String)
+      connection_string = connection_string
     End Sub
 
     ' SQL文の追加
-    Friend Sub Add(sql As String)
+    Public Sub Add(sql As String)
       Me._sql = " {sql} "
     End Sub
 
     ' SQLパラメタの追加
-    Friend Sub AddParam(arg As String, dbtype As SqlDbType, value As Object)
+    Public Sub AddParam(arg As String, dbtype As SqlDbType, value As Object)
       _sqlParams.Add(arg, dbtype, value)
     End Sub
 
-    Friend Function DBSelect() As Dictionary(Of String, Object)
+    Public Function DBSelect() As Dictionary(Of String, Object)
       ' 関数内でのみ有効な変数を宣言
       Dim myConn As SqlConnection
       Dim myCmd As SqlCommand
@@ -73,7 +74,7 @@ Namespace DBMod
       myConn.Close()
     End Function
 
-    Friend Function DBSelectAll() As List (Of Dictionary(Of String, Object))
+    Public Function DBSelectAll() As List (Of Dictionary(Of String, Object))
       ' 関数内でのみ有効な変数を宣言
       Dim myConn As SqlConnection
       Dim myCmd As SqlCommand
@@ -126,7 +127,7 @@ Namespace DBMod
       myConn.Close()
     End Function
 
-    Friend Sub DBExecute()
+    Public Sub DBExecute()
       ' 関数内でのみ有効な変数を宣言
       Dim myConn As SqlConnection
       Dim myCmd As SqlCommand
@@ -168,4 +169,3 @@ Namespace DBMod
     End Sub
 
   End Class
-End Namespace
