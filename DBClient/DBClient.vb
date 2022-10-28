@@ -41,7 +41,7 @@ Imports System.Data.SqlClient
       ' 接続文字列の設定がされていなかったら処理を終了
       If Me.connection_string Is Nothing
         Console.WriteLine("接続文字列が指定されていません。")
-        Return
+        Return Nothing
       End If
 
       ' 接続文字列からDBコネクションオブジェクトを生成
@@ -83,7 +83,7 @@ Imports System.Data.SqlClient
       ' 接続文字列の設定がされていなかったら処理を終了
       If Me.connection_string Is Nothing
         Console.WriteLine("接続文字列が指定されていません。")
-        Return
+        Return Nothing
       End If
 
       ' 接続文字列からDBコネクションオブジェクトを生成
@@ -104,9 +104,6 @@ Imports System.Data.SqlClient
 
       ' コネクションをオープン
       myConn.Open()
-
-      ' 結果返却用のデータを作成
-      Dim result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
 
       ' カーソルを取得
       myReader = myCmd.ExecuteReader()
@@ -131,7 +128,6 @@ Imports System.Data.SqlClient
       ' 関数内でのみ有効な変数を宣言
       Dim myConn As SqlConnection
       Dim myCmd As SqlCommand
-      Dim myReader As SqlDataReader
 
       ' 接続文字列の設定がされていなかったら処理を終了
       If Me.connection_string Is Nothing
@@ -162,9 +158,8 @@ Imports System.Data.SqlClient
       Dim result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
 
       ' カーソルを取得
-      myReader = myCmd.ExecuteNonQuery()
+      myCmd.ExecuteNonQuery()
 
-      myReader.Close()
       myConn.Close()
     End Sub
 
