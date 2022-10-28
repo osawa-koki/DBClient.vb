@@ -13,3 +13,9 @@ dotnet run
 
 # -> Hello  World
 ```
+
+## 自分用メモ
+
+```bash
+dotnet new console -lang VB <プロジェクト名>
+```
