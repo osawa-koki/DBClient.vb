@@ -17,21 +17,21 @@ Namespace DBMod
     Private _sqlParams As List(Of (arg As String, dbtype As SqlDbType, value As Object)) = New List(Of (arg As String, dbtype As SqlDbType, value As Object))
 
     ' プログラムで一度だけ実行(初期化)
-    Sub Init(connection_string As String)
+    Friend Sub Init(connection_string As String)
       Me.connection_string = connection_string
     End Sub
 
     ' SQL文の追加
-    Sub Add(sql As String)
+    Friend Sub Add(sql As String)
       Me._sql = " {sql} "
     End Sub
 
     ' SQLパラメタの追加
-    Sub AddParam(arg As String, dbtype As SqlDbType, value As Object)
+    Friend Sub AddParam(arg As String, dbtype As SqlDbType, value As Object)
       _sqlParams.Add(arg, dbtype, value)
     End Sub
 
-    Sub Main(args As String())
+    Private Sub Main(args As String())
       ' 関数内でのみ有効な変数を宣言
       Dim myConn As SqlConnection
       Dim myCmd As SqlCommand
