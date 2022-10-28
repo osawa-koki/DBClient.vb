@@ -14,6 +14,12 @@ dotnet run
 # -> Hello  World
 ```
 
+## DB接続方法
+
+```bash
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'P@ssw0rd'
+```
+
 ## 自分用メモ
 
 ```bash
