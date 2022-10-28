@@ -5,8 +5,8 @@
 ## 実行方法
 
 ```vb.net
-# DBClientディレクトリに移動して、、、
-cd DBClient
+# easy-sampleディレクトリに移動して、、、
+cd easy-sample
 
 # プログラムを実行
 dotnet run
