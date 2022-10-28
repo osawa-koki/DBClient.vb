@@ -31,7 +31,7 @@ Namespace DBMod
       _sqlParams.Add(arg, dbtype, value)
     End Sub
 
-    Private Sub Main(args As String())
+    Friend Function DBSelect() As Dictionary(Of String, Object)
       ' 関数内でのみ有効な変数を宣言
       Dim myConn As SqlConnection
       Dim myCmd As SqlCommand
@@ -62,15 +62,110 @@ Namespace DBMod
       ' コネクションをオープン
       myConn.Open()
 
+      ' 結果返却用のデータを作成
+      Dim result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
+
+      For i = 0 To myReader.FieldCount
+        result.Add(myReader.GetName(i), myReader.GetValue(i))
+      Next
+
+      myReader.Close()
+      myConn.Close()
+    End Function
+
+    Friend Function DBSelectAll() As List (Of Dictionary(Of String, Object))
+      ' 関数内でのみ有効な変数を宣言
+      Dim myConn As SqlConnection
+      Dim myCmd As SqlCommand
+      Dim myReader As SqlDataReader
+
+      ' 接続文字列の設定がされていなかったら処理を終了
+      If Me.connection_string Is Nothing
+        Console.WriteLine("接続文字列が指定されていません。")
+        Return
+      End If
+
+      ' 接続文字列からDBコネクションオブジェクトを生成
+      myConn = New SqlConnection(Me.connection_string)
+
+      ' コネクションからSQLコマンドオブジェクトを作成
+      myCmd = myConn.CreateCommand
+
+      ' SQLコマンド文に登録された文字列を指定
+      myCmd.CommandText = Me._sql
+
+      For Each item As (arg As String, dbtype As SqlDbType, value As Object) In Me._sqlParams
+        Dim key As String = item.arg
+        Dim dbtype As SqlDbType = item.dbtype
+        Dim value As Object = item.value
+        myCmd.Parameters.Add(key, dbtype).Value = value
+      Next
+
+      ' コネクションをオープン
+      myConn.Open()
+
+      ' 結果返却用のデータを作成
+      Dim result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
+
       ' カーソルを取得
       myReader = myCmd.ExecuteReader()
 
+      ' 結果返却用のデータを作成
+      Dim result As List(Of Dictionary(Of String, Object)) = new List (Of Dictionary(Of String, Object))
+
       Do While myReader.Read()
-        results = results & myReader.GetString(0) & vbTab & myReader.GetString(1) & vbLf
+        ' 結果返却用の一時的なデータを作成
+        Dim temp_result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
+        For i = 0 To myReader.FieldCount
+          temp_result.Add(myReader.GetName(i), myReader.GetValue(i))
+        Next
+        result.Add(temp_result)
       Loop
 
       myReader.Close()
       myConn.Close()
+    End Function
+
+    Friend Sub DBExecute()
+      ' 関数内でのみ有効な変数を宣言
+      Dim myConn As SqlConnection
+      Dim myCmd As SqlCommand
+      Dim myReader As SqlDataReader
+
+      ' 接続文字列の設定がされていなかったら処理を終了
+      If Me.connection_string Is Nothing
+        Console.WriteLine("接続文字列が指定されていません。")
+        Return
+      End If
+
+      ' 接続文字列からDBコネクションオブジェクトを生成
+      myConn = New SqlConnection(Me.connection_string)
+
+      ' コネクションからSQLコマンドオブジェクトを作成
+      myCmd = myConn.CreateCommand
+
+      ' SQLコマンド文に登録された文字列を指定
+      myCmd.CommandText = Me._sql
+
+      For Each item As (arg As String, dbtype As SqlDbType, value As Object) In Me._sqlParams
+        Dim key As String = item.arg
+        Dim dbtype As SqlDbType = item.dbtype
+        Dim value As Object = item.value
+        myCmd.Parameters.Add(key, dbtype).Value = value
+      Next
+
+      ' コネクションをオープン
+      myConn.Open()
+
+      ' 結果返却用のデータを作成
+      Dim result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
+
+      ' カーソルを取得
+      myReader = myCmd.ExecuteNonQuery()
+
+      myReader.Close()
+      myConn.Close()
     End Sub
+
   End Class
 End Namespace
