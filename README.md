@@ -34,6 +34,12 @@ CREATE TABLE pokemon(
   name NVARCHAR(10) UNIQUE
 );
 
+INSERT INTO pokemon(number, name) VALUES(25, N'ピカチュウ');
+GO
+
+INSERT INTO pokemon(number, name) VALUES(152, N'チコリータ');
+GO
+
 # DBプロンプトモードから抜ける
 exit
 ```
