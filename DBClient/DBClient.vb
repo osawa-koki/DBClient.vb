@@ -29,7 +29,7 @@ Imports System.Data.SqlClient
 
     ' SQLパラメタの追加
     Public Sub AddParam(arg As String, dbtype As SqlDbType, value As Object)
-      _sqlParams.Add(arg, dbtype, value)
+      _sqlParams.Add((arg, dbtype, value))
     End Sub
 
     Public Function DBSelect() As Dictionary(Of String, Object)
