@@ -17,5 +17,5 @@ dotnet run
 ## 自分用メモ
 
 ```bash
-dotnet new console -lang VB <プロジェクト名>
+dotnet new console -lang VB -o <プロジェクト名>
 ```
