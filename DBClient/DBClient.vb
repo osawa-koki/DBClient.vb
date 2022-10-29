@@ -2,7 +2,6 @@ Imports System
 Imports System.Data
 Imports System.Data.SqlClient
 
-
 Public Enum DBMethod
   DBSelect
   DBSelectAll
