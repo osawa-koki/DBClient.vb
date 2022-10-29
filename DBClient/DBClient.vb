@@ -72,6 +72,8 @@ Imports System.Data.SqlClient
 
       myReader.Close()
       myConn.Close()
+
+      Return result
     End Function
 
     Public Function DBSelectAll() As List (Of Dictionary(Of String, Object))
