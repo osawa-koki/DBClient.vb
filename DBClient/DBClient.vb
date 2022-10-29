@@ -11,20 +11,20 @@ Imports System.Data.SqlClient
 
   Public Class DBClient
     ' 接続文字列
-    Private Shared connection_string As String
+    Private Shared _connection_string As String
     ' SQL文
-    Private _sql As String = String.Empty
+    Private _sql As String = ""
     ' SQLパラメタ
     Private _sqlParams As List(Of (arg As String, dbtype As SqlDbType, value As Object)) = New List(Of (arg As String, dbtype As SqlDbType, value As Object))
 
     ' プログラムで一度だけ実行(初期化)
     Public Shared Sub Init(connection_string As String)
-      connection_string = connection_string
+      _connection_string = connection_string
     End Sub
 
     ' SQL文の追加
     Public Sub Add(sql As String)
-      Me._sql = " {sql} "
+      Me._sql &= $" {sql} "
     End Sub
 
     ' SQLパラメタの追加
@@ -39,13 +39,13 @@ Imports System.Data.SqlClient
       Dim myReader As SqlDataReader
 
       ' 接続文字列の設定がされていなかったら処理を終了
-      If Me.connection_string Is Nothing
+      If Me._connection_string Is Nothing
         Console.WriteLine("接続文字列が指定されていません。")
         Return Nothing
       End If
 
       ' 接続文字列からDBコネクションオブジェクトを生成
-      myConn = New SqlConnection(Me.connection_string)
+      myConn = New SqlConnection(Me._connection_string)
 
       ' コネクションからSQLコマンドオブジェクトを作成
       myCmd = myConn.CreateCommand
@@ -81,13 +81,13 @@ Imports System.Data.SqlClient
       Dim myReader As SqlDataReader
 
       ' 接続文字列の設定がされていなかったら処理を終了
-      If Me.connection_string Is Nothing
+      If Me._connection_string Is Nothing
         Console.WriteLine("接続文字列が指定されていません。")
         Return Nothing
       End If
 
       ' 接続文字列からDBコネクションオブジェクトを生成
-      myConn = New SqlConnection(Me.connection_string)
+      myConn = New SqlConnection(Me._connection_string)
 
       ' コネクションからSQLコマンドオブジェクトを作成
       myCmd = myConn.CreateCommand
@@ -114,7 +114,7 @@ Imports System.Data.SqlClient
       Do While myReader.Read()
         ' 結果返却用の一時的なデータを作成
         Dim temp_result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
-        For i = 0 To myReader.FieldCount
+        For i = 0 To myReader.FieldCount - 1
           temp_result.Add(myReader.GetName(i), myReader.GetValue(i))
         Next
         result.Add(temp_result)
@@ -130,13 +130,13 @@ Imports System.Data.SqlClient
       Dim myCmd As SqlCommand
 
       ' 接続文字列の設定がされていなかったら処理を終了
-      If Me.connection_string Is Nothing
+      If Me._connection_string Is Nothing
         Console.WriteLine("接続文字列が指定されていません。")
         Return
       End If
 
       ' 接続文字列からDBコネクションオブジェクトを生成
-      myConn = New SqlConnection(Me.connection_string)
+      myConn = New SqlConnection(Me._connection_string)
 
       ' コネクションからSQLコマンドオブジェクトを作成
       myCmd = myConn.CreateCommand

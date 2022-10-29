@@ -9,7 +9,9 @@ Module Program
     client.Add("FROM pokemon")
     Dim result As List (Of Dictionary(Of String, Object)) = client.DBSelectAll()
 
-    Console.WriteLine(result)
+    For Each item As Dictionary(Of String, Object) In result
+      Console.WriteLine()
+    Next
   End Sub
 End Module
 
