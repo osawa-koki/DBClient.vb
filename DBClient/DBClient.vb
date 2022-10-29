@@ -15,7 +15,7 @@ Imports System.Data.SqlClient
     ' SQL文
     Private _sql As String = ""
     ' SQLパラメタ
-    Private _sqlParams As List(Of (arg As String, dbtype As SqlDbType, value As Object)) = New List(Of (arg As String, dbtype As SqlDbType, value As Object))
+    Private _sqlParams As List(Of (arg As String, dbtype As SqlDbType, value As Object)) = New List(Of (arg As String, dbtype As SqlDbType, value As Object))()
 
     ' プログラムで一度だけ実行(初期化)
     Public Shared Sub Init(connection_string As String)
@@ -64,7 +64,7 @@ Imports System.Data.SqlClient
       myConn.Open()
 
       ' 結果返却用のデータを作成
-      Dim result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
+      Dim result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)()
 
       For i = 0 To myReader.FieldCount
         result.Add(myReader.GetName(i), myReader.GetValue(i))
@@ -109,11 +109,11 @@ Imports System.Data.SqlClient
       myReader = myCmd.ExecuteReader()
 
       ' 結果返却用のデータを作成
-      Dim result As List(Of Dictionary(Of String, Object)) = new List (Of Dictionary(Of String, Object))
+      Dim result As List(Of Dictionary(Of String, Object)) = new List (Of Dictionary(Of String, Object))()
 
       Do While myReader.Read()
         ' 結果返却用の一時的なデータを作成
-        Dim temp_result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
+        Dim temp_result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)()
         For i = 0 To myReader.FieldCount - 1
           temp_result.Add(myReader.GetName(i), myReader.GetValue(i))
         Next
@@ -122,6 +122,8 @@ Imports System.Data.SqlClient
 
       myReader.Close()
       myConn.Close()
+
+      Return result
     End Function
 
     Public Sub DBExecute()
@@ -153,9 +155,6 @@ Imports System.Data.SqlClient
 
       ' コネクションをオープン
       myConn.Open()
-
-      ' 結果返却用のデータを作成
-      Dim result As Dictionary(Of String, Object) = new Dictionary(Of String, Object)
 
       ' カーソルを取得
       myCmd.ExecuteNonQuery()

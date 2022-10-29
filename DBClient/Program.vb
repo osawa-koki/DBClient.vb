@@ -10,7 +10,7 @@ Module Program
     Dim result As List (Of Dictionary(Of String, Object)) = client.DBSelectAll()
 
     For Each item As Dictionary(Of String, Object) In result
-      Console.WriteLine()
+      Console.WriteLine(item("number") & " - " & item("name"))
     Next
   End Sub
 End Module
